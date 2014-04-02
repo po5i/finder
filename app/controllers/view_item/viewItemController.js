@@ -5,7 +5,7 @@
 */
 
 /*Define viewItemController controller in 'app' */
-listing.controller("viewItemController", function($scope, $http, $location) {
+listing.controller("viewItemController", function($scope, $http, $location, $routeParams) {
 
 	/*****************************************************************************************************************/
 	/*							  	GENERAL												  						     */
@@ -37,8 +37,9 @@ listing.controller("viewItemController", function($scope, $http, $location) {
 	/************************************************** GET ITEM *****************************/
 	$scope.getItem = function() {
 
-		var item_identifier = $location.search().id.split('_')[0]; //SET_ID
-		var item_set = $location.search().id.split('_')[1];
+		console.log($routeParams);
+		var item_identifier = $routeParams.itemId.split('_')[0]; //SET_ID
+		var item_set = $routeParams.itemId.split('_')[1];
 
 		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8'};
 

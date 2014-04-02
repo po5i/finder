@@ -34,7 +34,6 @@ listing.service('sharedProperties',
 
 
 /*Routing*/
-/*
 listing.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
@@ -46,13 +45,17 @@ listing.config(['$routeProvider',
 		    templateUrl: 'ui/item.html',
 		    controller: 'viewItemController'
 		  }).
-		  when('/phones/:phoneId', {
+		  when('/item/:itemId', {
 		    templateUrl: 'ui/item.html',
 		    controller: 'viewItemController'
+		  }).
+		  when('/', {
+		   templateUrl: 'ui/search.html',
+		    controller: 'mainController'
 		  }).
 		  otherwise({
 		    redirectTo: '/search'
 		  });
 	}]);
-*/
+
 

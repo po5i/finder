@@ -7,8 +7,8 @@
 /*Define mainController controller in 'app' */
 listing.controller("mainController", function($rootScope, $scope, $http, $location, $modal, $log, sharedProperties){
 
-	$scope.conf_file = '../config/conf.json';
-	var mappings_file = '../config/facets_mappings.json';
+	$scope.conf_file = 'config/conf.json';
+	var mappings_file = 'config/facets_mappings.json';
 
 	//variable to show and hide elements in ui
 	$scope.show_hide = [];
