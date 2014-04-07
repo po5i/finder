@@ -49,6 +49,14 @@ listing.config(['$routeProvider',
 		    templateUrl: 'ui/item.html',
 		    controller: 'viewItemController'
 		  }).
+		  when('/item_translations',{
+		    templateUrl: 'ui/item_translations.html',
+		    controller: 'viewTranslationsController'
+		  }).
+		  when('/item_translations/:itemId',{
+		    templateUrl: 'ui/item_translations.html',
+		    controller: 'viewTranslationsController'
+		  }).
 		  when('/', {
 		   templateUrl: 'ui/search.html',
 		    controller: 'mainController'

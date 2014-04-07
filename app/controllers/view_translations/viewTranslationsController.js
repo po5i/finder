@@ -5,7 +5,7 @@
 */
 
 /*Define viewItemController controller in 'app' */
-listing.controller("viewTranslationsController", function($scope, $http, $location, $sce) {
+listing.controller("viewTranslationsController", function($scope, $http,  $routeParams, $location, $sce) {
 
 	$scope.language_mappings = [];
 	$scope.language_mappings['en'] = 'English';
@@ -123,8 +123,8 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 	/********** GET ITEM *********************************************************************/
 	$scope.getItem = function() {
 
-		var item_identifier = $location.search().id.split('_')[0]; //?id=ID_SET
-		var item_set = $location.search().id.split('_')[1];
+		var item_identifier = $routeParams.itemId.split('_')[0]; //SET_ID
+		var item_set = $routeParams.itemId.split('_')[1];
 		$scope.item_resource_url = '';
 		$scope.item_number_of_visitors = 0;
 		$scope.item_average_rating = 'no rating available yet';
@@ -208,7 +208,7 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 	/********* TRANSLATE ITEM *************************************************************/
 	$scope.translate = function(from, to, text, element, service) {
 
-		var item_identifier = $location.search().id.split('_')[0]; //?id=ID_SET
+		var item_identifier = $routeParams.itemId.split('_')[0]; //?id=ID_SET
 		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8'};
 
 		var translate_url = 'http://organic-analytic.agroknow.gr/api/analytics/translate?text='+text+'&from='+from+'&to='+to+'&service='+service;
@@ -298,14 +298,14 @@ listing.controller("viewTranslationsController", function($scope, $http, $locati
 	/********* CHECK DOMAIN TERMINOLOGY **********************************************/
 	$scope.callDomainTerminology = function(original, translated, from, to, service) {
 		/*console.log('from:' + from + ' |to:' + to + ' |original: ' + original + ' |translated: ' + translated + ' |service: ' + service);*/
-		var celi_url = 'http://research.celi.it:8080/DomainTerminologyChecker/rest/domain_terminology_checker/jsonp?source='+original+'&translation='+translated+'&service='+service+'&from='+from+'&to='+to+'&json_output=true&callback=JSON_CALLBACK';
+		var celi_url = 'http://research.celi.it:8080/DomainTerminologyChecker/rest/domain_terminology_checker?source='+original+'&translation='+translated+'&service='+service+'&from='+from+'&to='+to+'&json_output=true&callback=JSON_CALLBACK';
 
 		console.log(celi_url);
 
 		$http({
 			method : 'GET',
 			url : celi_url,
-			type: 'jsonp'
+			type: 'json'
 		})
 		.success(function(response) {
 

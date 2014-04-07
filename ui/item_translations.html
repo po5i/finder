@@ -1,29 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title> ^ Agro Know</title>
-	<!-- INCLUDE REQUIRED THIRD PARTY LIBRARY JAVASCRIPT AND CSS -->
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
-	<link rel="stylesheet/less" type="text/css" media="screen" href="../css/style.less" />
+<div ng-controller="viewTranslationsController" ng-init="getItem()" class="row" ng-cloak>
+	<a href="#/search"> <h3> &lt; Back to search</h3> </a>
 
-</head>
+    <h3>View Translations for : {{item_id}}</h3>
+    <!-- <label for="user_id">Give a user id (required for rating):</label>
+    <input ng-model="user_id" name="user_id" type="text" placeholder="" >-->
 
-<body>
-        <div id="akListing" ng-app="akListing" >
+    <h4>Choose language and click 'translate'</h4>
 
-            <div ng-controller="viewTranslationsController" ng-init="getItem()" class="row" ng-cloak>
-			<a href="search.html" target="_self" > <h3> &lt; Back to search</h3> </a>
-
-            <h3>View Translations for : {{item_id}}</h3>
-            <!-- <label for="user_id">Give a user id (required for rating):</label>
-		    <input ng-model="user_id" name="user_id" type="text" placeholder="" >-->
-
-            <h4>Choose language and click 'translate'</h4>
-
-            <form ng-submit="translate_item()">
-				<label for="trans_to">Translate from {{language_mappings[translate_from] || translate_from }} to:
-	            <select id="trans_to" ng-model="translate_to">
+    <form ng-submit="translate_item()">
+		<label for="trans_to">Translate from {{language_mappings[translate_from] || translate_from }} to:
+        <select id="trans_to" ng-model="translate_to">
 					<option value="ar">Arabic</option>
 					<option value="bg">Bulgarian</option>
 					<option value="ca">Catalan</option>
@@ -70,61 +56,61 @@
 					<option value="vi">Vietnamese</option>
 				</select>
 
-		        <button class="btn btn-success" type="submit">Translate</button>
-		    </form>
+        <button class="btn btn-success" type="submit">Translate</button>
+    </form>
 
 
-	        <!-- loading and message -->
-	        <div>
-			    <progressbar ng-show="loading" class="progress-striped active" value="100" type="success">translating...</progressbar>
-	        </div>
+    <!-- loading and message -->
+    <div>
+	    <progressbar ng-show="loading" class="progress-striped active" value="100" type="success">translating...</progressbar>
+    </div>
 
-            <alert type="danger" ng-show="error">
-            	Hmm... Something went wrong! Please try again later :)
-            </alert>
-
-
-			<article class="origin_document_container">
-			<h4>Original Document. </h4>
-                <header>
-                    <h2 id="itemTitle"></h2>
-                    <!--<img src="style/images/copyright_sample.png" alt="image" />-->
-                </header>
-
-                <div>
-                    <p class="itemDescription" id="itemDescription"><b>Title:</b> {{item_title}}</p>
-                </div>
-
-				 <div>
-                    <p class="itemDescription" id="itemDescription"><b>Description:</b> {{item_description}}</p>
-                </div>
-			</article>
+    <alert type="danger" ng-show="error">
+    	Hmm... Something went wrong! Please try again later :)
+    </alert>
 
 
+	<article class="origin_document_container">
+	<h4>Original Document. </h4>
+        <header>
+            <h2 id="itemTitle"></h2>
+            <!--<img src="style/images/copyright_sample.png" alt="image" />-->
+        </header>
 
-			<article class="microsoft_translate_container">
-			    <h4>Microsoft Service Translation</h4>
-                <header>
-                    <h2 id="itemTitle"></h2>
-                    <!--<img src="style/images/copyright_sample.png" alt="image" />-->
-                </header>
+        <div>
+            <p class="itemDescription" id="itemDescription"><b>Title:</b> {{item_title}}</p>
+        </div>
 
-                <div>
-                    <p class="itemDescription" id="itemDescription"><b>Title:</b> {{microsoft_title || 'Choose language for translation.'}}</p>
-                </div>
-
-				<div ng-show="!domain_terminology_response">
-                    <p class="itemDescription" id="itemDescription"><b>Description:</b> {{microsoft_description || '-'}}</p>
-                </div>
-                <!--Check Domain Terminology-->
-                <div ng-bind-html="domain_terminology_response"></div>
-                <div ng-show="microsoft_description">
-	                <a class="btn btn-info" ng-click="callDomainTerminology(item_description, microsoft_description, translate_from, translate_to, 'microsoft')">Check Domain Terminology (Organic.Lingua)</a>
-                </div>
+		 <div>
+            <p class="itemDescription" id="itemDescription"><b>Description:</b> {{item_description}}</p>
+        </div>
+	</article>
 
 
-                <!-- rating data -->
-                <!--
+
+	<article class="microsoft_translate_container">
+	    <h4>Microsoft Service Translation</h4>
+        <header>
+            <h2 id="itemTitle"></h2>
+            <!--<img src="style/images/copyright_sample.png" alt="image" />-->
+        </header>
+
+        <div>
+            <p class="itemDescription" id="itemDescription"><b>Title:</b> {{microsoft_title || 'Choose language for translation.'}}</p>
+        </div>
+
+		<div ng-show="!domain_terminology_response">
+            <p class="itemDescription" id="itemDescription"><b>Description:</b> {{microsoft_description || '-'}}</p>
+        </div>
+        <!--Check Domain Terminology-->
+        <div ng-bind-html="domain_terminology_response"></div>
+        <div ng-show="microsoft_description">
+            <a class="btn btn-info" ng-click="callDomainTerminology(item_description, microsoft_description, translate_from, translate_to, 'microsoft')">Check Domain Terminology (Organic.Lingua)</a>
+        </div>
+
+
+        <!-- rating data -->
+        <!--
 				<div>Rating: {{microsoft_avg_rating || '-'}}
 	                	<br>
 					 Votes: {{microsoft_votes || '-'}}
@@ -161,27 +147,27 @@
 
 
 
-			</article>
+	</article>
 
 
 
-			<article class="xerox_translate_container">
-                <h4>Xerox Service Translation</h4>
-                <header>
-                    <h2 id="itemTitle"></h2>
-                    <!--<img src="style/images/copyright_sample.png" alt="image" />-->
-                </header>
+	<article class="xerox_translate_container">
+        <h4>Xerox Service Translation</h4>
+        <header>
+            <h2 id="itemTitle"></h2>
+            <!--<img src="style/images/copyright_sample.png" alt="image" />-->
+        </header>
 
-                <div>
-                    <p class="itemDescription" id="itemDescription"><b>Title:</b> {{xerox_title || 'Choose language for translation.'}}</p>
-                </div>
+        <div>
+            <p class="itemDescription" id="itemDescription"><b>Title:</b> {{xerox_title || 'Choose language for translation.'}}</p>
+        </div>
 
-				 <div>
-                    <p class="itemDescription" id="itemDescription"><b>Description:</b> {{xerox_description || '-'}}</p>
-                </div>
+		 <div>
+            <p class="itemDescription" id="itemDescription"><b>Description:</b> {{xerox_description || '-'}}</p>
+        </div>
 
-				<!-- rating data -->
-                <!--
+		<!-- rating data -->
+        <!--
 
                 <div>Rating: {{xerox_avg_rating || '-'}}
 	                	<br>
@@ -217,20 +203,7 @@
 				<p class="thanks" ng-show="xerox_rating_thanks">Thank you for rating.</p>
 				-->
 
-			</article>
+	</article>
 
-		</div>
-    </div>
+</div>
 
-
-	<!-- INCLUDE APPLICATION SPECIFIC CSS AND JAVASCRIPT -->
-	<script type="text/javascript" src="../lib/angular.min.js"></script>
-	<script type="text/javascript" src="../lib/angular-route.min.js"></script>
-	<script type="text/javascript" src="../lib/ui-bootstrap-0.10.0.min.js"></script>
-
-	<script src="../lib/less-1.5.0.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="../app/app.js"></script>
-	<script type="text/javascript" src="../app/controllers/view_translations/viewTranslationsController.js"></script>
-
-</body>
-</html>

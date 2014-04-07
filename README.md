@@ -13,8 +13,14 @@ It's implemented using HTML, CSS and Javascript.
 Its goal is to augment web-based applications with model?view?controller (MVC) capability, in an effort to make both development and testing easier.
 
 2. **Native AngularJS (Angular) directives for Twitter's Bootstrap.**
-Small footprint (5kB gzipped!), no 3rd party JS dependencies (jQuery, bootstrap JS) required!
+Small footprint (5kB gzipped!), NO 3rd party JS dependencies (jQuery, bootstrap JS) required!
 http://angular-ui.github.io/bootstrap/
+
+####Features
+1. Loading more option
+2. Scroll to top
+3. Responsiveness & mobile friendliness
+4. Routing
 
 
 TO-DO
