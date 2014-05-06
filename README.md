@@ -13,7 +13,9 @@ It's implemented using HTML, CSS and Javascript.
 
 2. **Native AngularJS (Angular) directives for Twitter's Bootstrap.**
 Small footprint (5kB gzipped!), NO 3rd party JS dependencies (jQuery, bootstrap JS) required!
-http://angular-ui.github.io/bootstrap/
+
+
+3. LESS CSS
 
 -----------
 ###Features
@@ -30,23 +32,27 @@ http://angular-ui.github.io/bootstrap/
 AngularJS is an open-source JavaScript framework, maintained by Google, that assists with running single-page applications.
 Its goal is to augment web-based applications with model-view-controller (MVC) capability, in an effort to make both development and testing easier.
 
-##### Single Page Logic
+##### Single Page App Logic
 Everything happens inside a single .html page. **index.html** is our main page.
 `ng-app` directive defines which app will manage the specific block.
 We have "akListing" module which is defined in */app/app.js* file. Everything we have built is under this module.
 
-The #akListing div is controlled by *mainController.js* ( ng-controller="mainController.js" )
+The #akListing div is controlled by *mainController.js* ( ng-controller="mainController.js" ).
 Inside #akListing we have a div with `ng-view` directive. This is used in combination with ngRoute(in app.js) in
 order to render inside this div the specific html-template given by route.
 
 ##### Routing
 As explained before everything is rendered inside the div with ng-view directive.
 All templates are in */templates* and the mapping is in `app.js` under `listing.config(['$routeProvider',function()])`.
-So for example we have in our page `<a href="#/educational/search/?q=food protection">` which will call the `when('/educational/search/:search_param'` case and will
-render `templates/akif_edu_search.html` inside the `ng-view`.
+So, for example we have in our page `<a href="#/educational/search/?q=food protection">`, which will call the `when('/educational/search/:search_param'` case and will
+render `templates/akif_edu_search.html` inside the `ng-view` changing the url to `...doc_location/#/educational/search/?q=food%20protection`.
 
-
-
+##### App Structure
+`/app/` folder contains app.js in which are defined the modules and the services we use.
+`/app/controllers/` contains all the controllers we use.
+..*`mainController.js` manages the app. Thus it contains for finder initialization, search submition, reset search, sanitization, truncate e.t.c and functions that are generelly used.
+..*`search/` contains the controllers for listing page ( facetsController.js, listingController.js, paginationController.js )
+..*`view_item/` contains the viewItemController.js who manages the view item page.
 
 
 
@@ -57,7 +63,12 @@ render `templates/akif_edu_search.html` inside the `ng-view`.
 ###### Angular Directives
 - https://docs.angularjs.org/guide/directive
 - http://stackoverflow.com/questions/13875466/what-is-an-angularjs-directive
-######
+
+###### Native AngularJS (Angular) directives for Twitter's Bootstrap
+- http://angular-ui.github.io/bootstrap/
+
+###### LESS CSS
+- http://lesscss.org/features/
 
 
 
