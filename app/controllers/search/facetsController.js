@@ -1,12 +1,20 @@
-listing.controller("facetsController", function($rootScope, $scope, $http, $location, sharedProperties){
+/*
+* @author Mathioudakis Theodore
+* Agro-Know Technologies - 2013
+*/
 
-// selectFacet() function
-//@param term : the term we selected
-//@param parent : the parent facet
-//@param count : count of the term
-//
-// creates jsons {"term":"xxx","facet":"xxx","count":"xxx"}
-// in active facets and calls findElements() from listingController in order to use the new
+
+listing.controller("facetsController", function($rootScope, $scope, $routeParams, $http, $location, sharedProperties){
+
+/*
+* @function selectFacet()
+* @param term : the term we selected
+* @param parent : the parent facet
+* @param count : count of the term
+*
+* creates jsons {"term":"xxx","facet":"xxx","count":"xxx"}
+* in active facets and calls findElements() from listingController in order to use the new
+*/
 $scope.selectFacet = function(term, parent, count)
 {
 
@@ -26,12 +34,20 @@ $scope.selectFacet = function(term, parent, count)
 	}
 
 	$rootScope.currentPage = 1;
-    $scope.findElements(false);
+    $scope.findElements( false, 'classic' );
     $scope.update();
 
 }
 
-/*deselect facet function*/
+/*
+* @function deselectFacet()
+* @param term : the term we selected
+* @param parent : the parent facet
+* @param count : count of the term
+*
+* creates jsons {"term":"xxx","facet":"xxx","count":"xxx"}
+* in active facets and calls findElements() from listingController in order to use the new
+*/
 $scope.deselectFacet = function(facet)
 {
 	var index = $scope.activeFacets.indexOf(facet);
@@ -39,10 +55,12 @@ $scope.deselectFacet = function(facet)
 	    $scope.activeFacets.splice(index, 1);
 	}
 
-	if($location.search()[facet.facet]) {
-		$location.search(facet.facet,null);
+	if($routeParams[facet.facet]) {
+		$routeParams[facet.facet] = $routeParams[facet.facet].replace( facet.term + ',' ,'' ).replace( ',' + facet.term, '');
 	}
-    $scope.findElements(false);
+
+
+    $scope.findElements( false, 'classic' );
 }
 
 

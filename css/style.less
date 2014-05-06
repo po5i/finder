@@ -2,16 +2,15 @@
 @background: #232B2B; /* RGB 35 43 43 - space gray*/
 @text_color_1: #41647B; /* RGB 65, 100, 123 - navy blue*/
 @text_color_2: #323B45; /* RGB 59, 59 , 69 - navy blue dark*/
-@active_text_color_1: #B5246B; /* RGB 181 36 107 - purple haze*/
+@active_text_color_1: #efa638; /* RGB 181 36 107 - gfsp yellow*/
 @blue_raf: #9DBCBC;
 @blue: #2a6095; /* blue */
 
 @search_button: #41647B; /* RGB 65, 100, 123 -navy blue */
-@search_button_hover: #B5246B; /* RGB 181 36 107 - purple haze*/
+@search_button_hover: #efa638; /* RGB 181 36 107 - gfsp yellow*/
 @warning_orange:  #FFA500;
 
 /* OER-AIMS SPECIFIC COLORS */
-@purple_haze: #B5246B; /* RGB 181 36 107 - purple haze*/
 @navy_blue: #41647B; /* RGB 65, 100, 123 -navy blue */
 @navy_blue_dark: #323B45; /* RGB 59, 59 , 69 - navy blue dark*/
 @light_raf: #C2D1E1; /* RGB 194, 209, 225 - light raf*/
@@ -47,7 +46,16 @@ body{
 		display: inline-block;
 		width:100%;
 	}
+
+	a {
+	 	cursor: pointer;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
 }
+
 
 #akListing {
 
@@ -78,10 +86,6 @@ body{
 	font:1.3em;
 }
 
-#header {
-	height: 120px;
-	border-bottom: 1px solid rgba(0,0,0,0.3);
-}
 
 footer {
 	width:60%;
@@ -91,6 +95,243 @@ footer {
 	text-align: center;
 	border-top: 1px solid rgba(0,0,0,0.3);
 }
+
+#header {
+	background-image: url('../assets/images/gfsp_logo.png');
+	min-height: 150px;
+	max-width: 100%;
+	min-width: 1000px;
+	margin:0px auto;
+	background-repeat: no-repeat;
+	background-color: white;
+	background-position: center;
+	.rounded-corners(5px);
+	box-shadow: 10px 0px 6px rgba(0, 0, 0, 0.2);
+
+	/* tablet */
+	@media all and (min-width: 480px) and (max-width: 768px) {
+		/*
+		  background-image: url('../assets/images/gfsp.png');
+		  min-height: 100px;
+		*/
+		min-width: 100%;
+	}
+	/* mobile */
+	@media all and (max-width: 480px) {
+		background-image: url('../assets/images/gfsp_min_logo.png');
+		min-height: 100px;
+		min-width: 100%;
+	}
+}
+
+#footer {
+	min-height: 100px;
+	max-width: 100%;
+	min-width: 1000px;
+	margin:0px auto;
+	background-repeat: no-repeat;
+	background-color: white;
+	background-position: center;
+	.rounded-corners(5px);
+	box-shadow: 10px 0px 6px rgba(0, 0, 0, 0.2);
+
+	/* tablet */
+	@media all and (min-width: 480px) and (max-width: 768px) {
+		min-height: 100px;
+		min-width: 100%;
+	}
+	/* mobile */
+	@media all and (max-width: 480px) {
+		min-height: 100px;
+		min-width: 100%;
+	}
+}
+
+
+#main_content {
+
+	display:table;
+	margin:0px auto;
+	padding:1em 0;
+	max-width: 1015px;
+	float:none;
+
+}
+
+.landing_links{
+
+	display: table;
+	.rounded-corners(10px);
+	background-color: rgba(255,255,255,0.8);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+	margin:10px auto;
+	padding:10px 0px;
+
+	h3 {
+		font-weight: 300;
+		text-align: center;
+		margin: 0px 0px 5px 0px;
+		color: white;
+		background-color: @navy_blue;
+		.rounded-corners-top(10px);
+	}
+
+	.link {
+		height:50px;
+		padding-top: 110px;
+		margin: 20px 0px;
+		text-align: center;
+
+		text-decoration: none;
+		color: @navy_blue;
+		background-repeat: no-repeat;
+		background-position:top;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.training_course {
+		background-image: url('../assets/images/training_course.png');
+	}
+
+	.open_educational {
+		background-image: url('../assets/images/open_educational.png');
+	}
+
+	.research_publications {
+		background-image: url('../assets/images/research_publications.png');
+	}
+
+	.incident {
+		background-image: url('../assets/images/incident_inactive.png');
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.haccp {
+		background-image: url('../assets/images/haccp.gif');
+	}
+
+	.publications {
+		background-image: url('../assets/images/publications.png');
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	.stats {
+		background-image: url('../assets/images/stats.png');
+	}
+
+	.food_security {
+		background-image: url('../assets/images/food_security.png');
+	}
+
+	.foodborne {
+		background-image: url('../assets/images/foodborne_disease.png');
+	}
+
+	.codex {
+		background-image: url('../assets/images/codex_alimentarius.png');
+	}
+
+	/* PROVIDERS */
+	.provider {
+		height:50px;
+		padding-top: 110px;
+		float:left;
+		margin: 15px 0px;
+		text-align: center;
+
+		text-decoration: none;
+		color: @navy_blue;
+		background-repeat: no-repeat;
+		background-position:top;
+
+	}
+
+	.fskn {
+		background-image: url('../assets/images/providers/fskn.png');
+
+	}
+
+	.jifsan {
+		background-image: url('../assets/images/providers/jifsan.png');
+		background-position:center center;
+	}
+
+	.ifpti {
+		background-image: url('../assets/images/providers/ifpti_gray.png');
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/ifpti.png'); */
+		}
+	}
+
+	.ncfpd {
+		background-image: url('../assets/images/providers/ncfpd.png');
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/ncfpd.png'); */
+		}
+	}
+
+	.gma {
+		background-image: url('../assets/images/providers/gma_gray.jpg');
+		background-position: center;
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/gma.jpg'); */
+		}
+	}
+
+	.ifpri {
+		background-image: url('../assets/images/providers/ifpri_gray.png');
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/ifpri.png'); */
+		}
+	}
+
+	.fao {
+		background-image: url('../assets/images/providers/fao.jpg');
+
+	}
+
+	.fao_stat {
+		background-image: url('../assets/images/providers/fao_stat_gray.jpg');
+		background-position:center center;
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/fao_stat.jpg'); */
+		}
+	}
+
+	.twb {
+		background-image: url('../assets/images/providers/twb_gray.jpg');
+		background-position:center center;
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/twb.jpg'); */
+		}
+	}
+
+	.ocwc {
+		background-image: url('../assets/images/providers/ocwc.png');
+		background-position:center center;
+
+		&:hover {
+/* 			background-image: url('../assets/images/providers/twb.jpg'); */
+		}
+	}
+
+
+}
+
 
 /******************************************************/
 /*					SEARCH BOX		 				  */
@@ -109,12 +350,13 @@ footer {
     /* Form text input */
     input {
 	    width: 73%;
-	    padding: 8px 5px;
+	    padding: 7px 5px;
 	    float: left;
 	    font: bold 15px;
 	    border: 0;
 	    background: #eee;
 	    font-size: 1.2em;
+	    border-bottom: 2px solid #41647b;
 
 	    &:focus {
 		    outline: 0;
@@ -272,6 +514,7 @@ footer {
 
 		.value{
 			float:left;
+			width:130px;
 		}
 
 		.count{
@@ -679,3 +922,19 @@ h4 {
   -o-border-radius: @radius;
   border-radius: @radius;
 }
+
+/*rounded corners function : 5px is default radius*/
+.rounded-corners-top (@radius: 5px) {
+  -webkit-border-top-right-radius: @radius;
+  -moz-border-top-right-radius: @radius;
+  -ms-border-top-right-radius: @radius;
+  -o-border-top-right-radius: @radius;
+  border-top-right-radius: @radius;
+
+   -webkit-border-top-left-radius: @radius;
+  -moz-border-top-left-radius: @radius;
+  -ms-border-top-left-radius: @radius;
+  -o-border-top-left-radius: @radius;
+  border-top-left-radius: @radius;
+}
+

@@ -1,13 +1,21 @@
-listing.controller("listingController", function($rootScope, $scope, $http, $location, sharedProperties){
+/*
+* @author Mathioudakis Theodore
+* Agro-Know Technologies - 2013
+*/
+
+
+
+ listing.controller("listingController", function($rootScope, $routeParams, $scope, $http, $location, sharedProperties){
 
 	/* variable to calculate the progress of http get request */
 	$scope.http_get_prog = 37;
 
 	/*
-	* creates the request for Search API and makes the call
+	* @function findElements(init, pagination_type) : creates the request for Search API and makes the call
 	* @param init : true if function called in initialization.
+	* @param init
 	*/
-	$rootScope.findElements = function(init)
+	$rootScope.findElements = function(init, pagination_type)
 	{
 		console.log('find_elements');
 		//enable loading indicator : true/false
@@ -16,9 +24,11 @@ listing.controller("listingController", function($rootScope, $scope, $http, $loc
 		$scope.error = false;
 
 		//If query defined in URL
-		if($location.search().q){
-			$rootScope.query = 'q='+$location.search().q;
+		if($routeParams.q){
+			$rootScope.query = 'q='+$routeParams.q;
 		}
+
+
 
 		//Search '*' @ initial search
 		if(init){
@@ -30,8 +40,9 @@ listing.controller("listingController", function($rootScope, $scope, $http, $loc
 			var flg = true; //needed for clearing the activeFacets at first time
 			//-check url
 			for(i in $scope.facets) {
-		    	if($scope.facets[i] in $location.search()) {
-					var terms = $location.search()[$scope.facets[i].toString()].split(',');
+
+		    	if($scope.facets[i] in $routeParams) {
+					var terms = $routeParams[$scope.facets[i].toString()].split(',');
 					//separate different terms of same facet
 					for(j in terms) {
 						var facet = { 'facet' : $scope.facets[i].toString() , 'term' : terms[j]} ;
@@ -41,7 +52,6 @@ listing.controller("listingController", function($rootScope, $scope, $http, $loc
 		    	}
 			}
 		}
-
 
 		//If there are facets defined in settings add them in query
 		var query_facets = '';
@@ -104,18 +114,26 @@ listing.controller("listingController", function($rootScope, $scope, $http, $loc
 		* limitFacets : '&set=oeintute&language=en,fr'
 		* limitFacetsNumber : '&limitFacetsNumber'
 		*/
-		var query = $scope.akif + $rootScope.query + query_facets + query_active_facets + query_pagination + limitFacets + limitFacetsNumber;
+		var query = $scope.api_path + $scope.schema + '?' + $rootScope.query + query_facets + query_active_facets + query_pagination + limitFacets + limitFacetsNumber;
+
 
 		//add parameters to URL
 		//active facets
 		var activeFacetSplit = query_active_facets.split('&');
-		for(tempfacet in activeFacetSplit){
+		for(tempfacet in $routeParams){
 			if(tempfacet!=0){
-				$location.search(activeFacetSplit[tempfacet].split('=')[0],activeFacetSplit[tempfacet].split('=')[1]);
+				console.log(tempfacet);
+/* 				$location.search(activeFacetSplit[tempfacet].split('=')[0],activeFacetSplit[tempfacet].split('=')[1]); */
 			}
 		}
 
-		$scope.searchMore(query);
+		// CHECK IF USER called the loading more or the classic pagination
+		if ( pagination_type == 'classic') {
+			$scope.search(query);
+		} else {
+			$scope.searchMore(query);
+		}
+
 
 	}
 
@@ -210,6 +228,8 @@ listing.controller("listingController", function($rootScope, $scope, $http, $loc
 		var temp = "";
 		var keys = [];
 		for(var k in thisJson.languageBlocks) keys.push(k);
+
+		console.log(thisJson);
 
 		if(thisJson.languageBlocks[$scope.selectedLanguage]!=undefined && thisJson.languageBlocks[$scope.selectedLanguage].title!=undefined)
 		{

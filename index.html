@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> ^ Agro Know</title>
+	<title>GFSP</title>
 	<!-- INCLUDE REQUIRED THIRD PARTY LIBRARY JAVASCRIPT AND CSS -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	<meta name="viewport" content="width=device-width" />
 
 	<!-- define the base url -->
-	<base href="/Users/higher2fly/Agro-Know/projects_UX/finder/">
+	<!-- 	<base href="/Users/higher2fly/Agro-Know/projects_UX/gfsp/"> -->
+	<!-- 	<base href="greenlearningnetwork.com/gfsp/"> -->
+
+	<!-- get base url dynamically to avoid collisions between 'www.domain...' and 'domain...' -->
+	<script>
+      document.write('<base href="' + document.location + '" />');
+	</script>
+
+	<script type="text/javascript" src="https://agroknow.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-8bdlft-1988229788/6318/8/1.4.10/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=26e040af"></script>
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -15,18 +24,18 @@
 
 </head>
 
-<body >
+<body ng-app="akListing" ng-cloak>
 
 	<div id="header">
 	</div>
 
-		<div id="akListing" ng-app="akListing" ng-controller="mainController" ng-init="init_finder()" ng-cloak>
-		        <div ng-view class="col-md-12">
-		        </div>
+		<div id="akListing" ng-controller="mainController">
+	        <div ng-view class="col-md-12" >
+	        </div>
 		</div>
 
 	<footer>
-		<p>Powered by Agro-Know</p>
+		<p><a href="http://www.agroknow.gr" target="_blank">Powered by Agro-Know</a></p>
 	</footer>
 
 <!-- INCLUDE APPLICATION SPECIFIC CSS AND JAVASCRIPT -->
@@ -44,7 +53,7 @@
 <script type="text/javascript" src="app/controllers/search/paginationController.js"></script>
 <script type="text/javascript" src="app/controllers/search/facetsController.js"></script>
 <script type="text/javascript" src="app/controllers/view_item/viewItemController.js"></script>
-<script type="text/javascript" src="app/controllers/view_translations/viewTranslationsController.js"></script>
+<script type="text/javascript" src="app/controllers/view_item/agris-viewItemController.js"></script>
 
 </body>
 </html>

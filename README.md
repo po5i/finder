@@ -8,7 +8,6 @@ of this finder-app is to have an open-source, lightweight, cross-platform soluti
 It's implemented using HTML, CSS and Javascript.
 
 ###Technologies
-
 1. **AngularJS** is an open-source JavaScript framework, maintained by Google, that assists with running single-page applications.
 Its goal is to augment web-based applications with model?view?controller (MVC) capability, in an effort to make both development and testing easier.
 
@@ -17,11 +16,14 @@ Small footprint (5kB gzipped!), NO 3rd party JS dependencies (jQuery, bootstrap 
 http://angular-ui.github.io/bootstrap/
 
 ####Features
-1. Loading more option
-2. Scroll to top
-3. Responsiveness & mobile friendliness
-4. Routing
-
+- Multiple formats can be added ( for now AKIF, AGRIF are implemented )
+- Different type of facets per page, with different mapping
+- Canned Queries
+- Pagination : "Loading more" with "Scroll to top", or normal pagination.
+- Responsiveness & mobile friendliness
+- Routing
+-
+-
 
 TO-DO
 1. Fix responsiveness issues (usability)
@@ -29,3 +31,8 @@ TO-DO
 3. Colorblind accessibility
 4. Infinite-load-more when scrolling down (keep pagination option throught settings)
 5. Fixed position button for go back to top ( need in infinite scroll )
+
+
+
+#### Documentation
+
