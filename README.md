@@ -49,9 +49,13 @@ render `templates/akif_edu_search.html` inside the `ng-view` changing the url to
 
 ##### App Structure
 `/app/` folder contains app.js in which are defined the modules and the services we use.
+
 `/app/controllers/` contains all the controllers we use.
+
 ..*`mainController.js` manages the app. Thus it contains for finder initialization, search submition, reset search, sanitization, truncate e.t.c and functions that are generelly used.
+
 ..*`search/` contains the controllers for listing page ( facetsController.js, listingController.js, paginationController.js )
+
 ..*`view_item/` contains the viewItemController.js who manages the view item page.
 
 
