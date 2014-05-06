@@ -15,8 +15,6 @@
       document.write('<base href="' + document.location + '" />');
 	</script>
 
-	<script type="text/javascript" src="https://agroknow.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-8bdlft-1988229788/6318/8/1.4.10/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=26e040af"></script>
-
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 	<link rel="stylesheet/less" type="text/css" href="css/style.less" />
@@ -24,15 +22,16 @@
 
 </head>
 
+<!-- ng-Cloak directive prevents html rendering before AngularJS full load. -->
 <body ng-app="akListing" ng-cloak>
 
-	<div id="header">
-	</div>
+	<header></header>
 
 		<div id="akListing" ng-controller="mainController">
 	        <div ng-view class="col-md-12" >
-	        </div>
+			</div>
 		</div>
+
 
 	<footer>
 		<p><a href="http://www.agroknow.gr" target="_blank">Powered by Agro-Know</a></p>

@@ -1,3 +1,7 @@
+/*paths*/
+@images_path : '../assets/images';
+
+
 /*colors*/
 @background: #232B2B; /* RGB 35 43 43 - space gray*/
 @text_color_1: #41647B; /* RGB 65, 100, 123 - navy blue*/
@@ -87,26 +91,17 @@ body{
 }
 
 
-footer {
-	width:60%;
-	height: 120px;
-	padding-top: 20px;
-	margin: 50px auto 0px;
-	text-align: center;
-	border-top: 1px solid rgba(0,0,0,0.3);
-}
-
-#header {
-	background-image: url('../assets/images/gfsp_logo.png');
+header {
+	/* background-image: url('@{images_path}/gfsp_logo.png'); */
 	min-height: 150px;
 	max-width: 100%;
 	min-width: 1000px;
 	margin:0px auto;
 	background-repeat: no-repeat;
-	background-color: white;
-	background-position: center;
-	.rounded-corners(5px);
-	box-shadow: 10px 0px 6px rgba(0, 0, 0, 0.2);
+	background-color: rgba( 0, 0, 0, 0.1 );
+	background-position: top;
+	display: block;
+	box-shadow: inset 0px -2px 6px rgba(0, 0, 0, 0.05);
 
 	/* tablet */
 	@media all and (min-width: 480px) and (max-width: 768px) {
@@ -124,16 +119,16 @@ footer {
 	}
 }
 
-#footer {
+footer {
 	min-height: 100px;
 	max-width: 100%;
 	min-width: 1000px;
 	margin:0px auto;
+	padding-top: 20px;
 	background-repeat: no-repeat;
-	background-color: white;
 	background-position: center;
-	.rounded-corners(5px);
-	box-shadow: 10px 0px 6px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0px 2px 6px rgba(0, 0, 0, 0.2);
+	text-align: center;
 
 	/* tablet */
 	@media all and (min-width: 480px) and (max-width: 768px) {
