@@ -4,19 +4,13 @@
 */
 
 
-/*Define ng-app module*/
+//Define ng-app module
+//----
+//services needed 'ngRoute', 'ui.bootstrap'
 var listing = angular.module('akListing',['ngRoute', 'ui.bootstrap']);
 /* var listing = angular.module('akListing',['ngRoute','mainController','listingController']); */
 
-/* $locationProvider Configuration */
-/*
-listing.config(['$locationProvider',
-	function($locationProvider) {
-		$locationProvider.html5Mode(true)
-	}]);
-*/
-
-/* Shared Properties Service */
+//Shared Properties Service
 listing.service('sharedProperties',
 	function () {
 	    var total = 0;
@@ -34,61 +28,32 @@ listing.service('sharedProperties',
 	    };
 	});
 
-
-/*Routing*/
+//Routing
+//----
+//manages the routing and defines which template should be rendered in any time based on the url
 listing.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
-			// - (AKIF)
-			//training
-			when('/training/search/', {
-				templateUrl: 'templates/akif_train_search.html',
-				controller: 'listingController'
-			}).
-			when('/training/search/:search_param', {
-				templateUrl: 'templates/akif_train_search.html',
-				controller: 'listingController'
-			}).
-			//educational resources
+			// search
 			when('/educational/search/', {
-				templateUrl: 'templates/akif_edu_search.html',
+				templateUrl: 'templates/search.html',
 				controller: 'listingController'
 			}).
 			when('/educational/search/:search_param', {
-				templateUrl: 'templates/akif_edu_search.html',
+				templateUrl: 'templates/search.html',
 				controller: 'listingController'
 			}).
-			//view-item
+			// view-item
 			when('/item', {
-				templateUrl: 'templates/akif_item.html',
+				templateUrl: 'templates/item.html',
 				controller: 'viewItemController'
 			}).
 			when('/item/:itemId', {
-				templateUrl: 'templates/akif_item.html',
+				templateUrl: 'templates/item.html',
 				controller: 'viewItemController'
 			}).
 
-
-			// - (AGRIF)
-			//research publications
-			when('/publications/search/', {
-				templateUrl: 'templates/agrif_search.html',
-				controller: 'listingController'
-			}).
-			when('/publications/search/:search_param', {
-				templateUrl: 'templates/agrif_search.html',
-				controller: 'listingController'
-			}).
-			when('/publication-item', {
-				templateUrl: 'templates/agrif_item.html',
-				controller: 'agris-viewItemController'
-			}).
-			when('/publication-item/:itemId', {
-				templateUrl: 'templates/agrif_item.html',
-				controller: 'agris-viewItemController'
-			}).
-
-			//general
+			// general
 			when('/', {
 				templateUrl: 'templates/main.html',
 				controller: 'mainController'
@@ -97,5 +62,3 @@ listing.config(['$routeProvider',
 				redirectTo: '/'
 			});
 	}]);
-
-

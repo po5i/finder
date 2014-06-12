@@ -5,19 +5,19 @@
 
 
 
+//Define listingController controller in 'app'
+//---
+
  listing.controller("listingController", function($rootScope, $routeParams, $scope, $http, $location, sharedProperties){
 
-	/* variable to calculate the progress of http get request */
+	// variable to calculate the progress of http get request
 	$scope.http_get_prog = 37;
 
-	/*
-	* @function findElements(init, pagination_type) : creates the request for Search API and makes the call
-	* @param init : true if function called in initialization.
-	* @param init
-	*/
+	//@function findElements(init, pagination_type) : creates the request for Search API and makes the call
+	//- @param init : true if function called in initialization.
+	//- @param init
 	$rootScope.findElements = function(init, pagination_type)
 	{
-		console.log('find_elements');
 		//enable loading indicator : true/false
 		$scope.loading = true;
 		//enable error message : true/false
@@ -28,8 +28,6 @@
 			$rootScope.query = 'q='+$routeParams.q;
 		}
 
-
-
 		//Search '*' @ initial search
 		if(init){
 			if(!$rootScope.query) {
@@ -38,7 +36,7 @@
 
 			//URL facets
 			var flg = true; //needed for clearing the activeFacets at first time
-			//-check url
+			//check url
 			for(i in $scope.facets) {
 
 		    	if($scope.facets[i] in $routeParams) {
@@ -51,6 +49,8 @@
 					}
 		    	}
 			}
+
+			$scope.results = [];
 		}
 
 		//If there are facets defined in settings add them in query
@@ -66,7 +66,7 @@
 		    	}
 			}
 		//create the query for ACTIVE FACETS
-			//-check activeFacets
+			//check activeFacets
 			if($scope.activeFacets.length>0) {
 		    	for(facet in $scope.activeFacets) {
 		    		//if exists facet with same parent we split() and add in same parent
@@ -91,8 +91,7 @@
 		//limit facets number per facet
 		var limitFacetsNumber = '&facet_size='+$scope.limit_facets_number;
 
-		//FACETS LIMITATION
-		//!! FIX TO CHANGE FROM conf.json
+		//facets limitation
 		var limitFacets = '';
 		for(i in $scope.limit_facets) {
 			limitFacets += '&' + i + "=";
@@ -106,15 +105,14 @@
 			}
 		}
 
-		/*create the FINAL QUERY
-		* the  followings DOESN'T shown in URL
-		* i.e
-		* query_facets : '&facets=set,language,contexts'
-		* query_pagination : '&page_size=15&page=1'
-		* limitFacets : '&set=oeintute&language=en,fr'
-		* limitFacetsNumber : '&limitFacetsNumber'
-		*/
-		var query = $scope.api_path + $scope.schema + '?' + $rootScope.query + query_facets + query_active_facets + query_pagination + limitFacets + limitFacetsNumber;
+		//create the FINAL QUERY
+		//the  followings DOESN'T shown in URL
+		//i.e
+		//- query_facets : '&facets=set,language,contexts'
+		//- query_pagination : '&page_size=15&page=1'
+		//- limitFacets : '&set=oeintute&language=en,fr'
+		//- limitFacetsNumber : '&limitFacetsNumber'
+		var query = $scope.api_path + $scope.schema + '?' + $rootScope.query.toLowerCase() + query_facets + query_active_facets + query_pagination + limitFacets + limitFacetsNumber;
 
 
 		//add parameters to URL
@@ -122,12 +120,12 @@
 		var activeFacetSplit = query_active_facets.split('&');
 		for(tempfacet in $routeParams){
 			if(tempfacet!=0){
-				console.log(tempfacet);
-/* 				$location.search(activeFacetSplit[tempfacet].split('=')[0],activeFacetSplit[tempfacet].split('=')[1]); */
+				/* console.log(tempfacet); */
+				/*$location.search(activeFacetSplit[tempfacet].split('=')[0],activeFacetSplit[tempfacet].split('=')[1]); */
 			}
 		}
 
-		// CHECK IF USER called the loading more or the classic pagination
+		//CHECK IF USER called the loading more or the classic pagination
 		if ( pagination_type == 'classic') {
 			$scope.search(query);
 		} else {
@@ -137,19 +135,20 @@
 
 	}
 
-	//search() works with PAGINATION. SERVES CONTENT PER PAGE
+	//function `search()` works with PAGINATION.
+	//Serves content per page
 	$scope.search = function(query) {
 
 		$http.get(query).success(function(data) {
 
-			/*Add facets*/
+			//Add facets
 			if($scope.enableFacets) {
 				$scope.inactiveFacets.length = 0;/*clear results*/
 				$scope.inactiveFacets.push(data.facets);
 
 			}
 
-			/* 	variable to calculate http get progress. in combination with $scope.http_get_prog */
+			//variable to calculate http get progress. in combination with $scope.http_get_prog
 			var data_results_length = data.results.length;
 			var result_index = 0;
 
@@ -182,7 +181,8 @@
 	}
 
 
-	//searchMore() works with LOAD MORE. ADDS CONTENT PER PAGE
+	//function `searchMore()` works with LOAD MORE.
+	//Append content per page
 	$scope.searchMore = function(query) {
 
 		$http.get(query).success(function(data) {
@@ -217,20 +217,19 @@
 	}
 
 
-
-	/*
-	* gets the json and create a new one based on the specs of the snippet_elements
-	* @param thisJson : json from result
-	* @param snippet_elements : array with selected elements we want to show in listing (i.e. title, description...)
-	*/
+	//gets the json and create a new one based on the specs of the snippet_elements
+	//- @param thisJson : json from result
+	//- @param snippet_elements : array with selected elements we want to show in listing (i.e. title, description...)
 	$scope.getSnippet = function(thisJson, snippet_elements)
 	{
 		var temp = "";
 		var keys = [];
 		for(var k in thisJson.languageBlocks) keys.push(k);
 
-		console.log(thisJson);
+		//used to get the first available language in case we don't have en.
+		var first_lang = Object.keys(thisJson.languageBlocks)[0];
 
+		//IF WE HAVE languageBlock with the selected language
 		if(thisJson.languageBlocks[$scope.selectedLanguage]!=undefined && thisJson.languageBlocks[$scope.selectedLanguage].title!=undefined)
 		{
 			var equals = "";
@@ -273,26 +272,96 @@
 			}
 
 
-			//WE MUST HAVE ID & SET IN ORDER TO VIEW ITEM
+			//We must have an ID and a SET in order to view item
 			if(thisJson.identifier) {
 				equals += '\ , "id\" : \"' + thisJson.identifier + '\"';
 			}
 
+			//set
 			if(thisJson.set) {
 				equals += '\ , "set\" : \"' + thisJson.set + '\"';
 			}
 
+			//rights
+			if(thisJson.rights.url !== undefined) {
+				console.log( thisJson.rights.url);
+				equals += '\ , "rights\" : \"' + thisJson.rights.url + '\"';
+			}
+
+
 			temp = '{' + equals + '}';
 
 			//return every snippet as JSON
-			//console.log(temp);
 			return JSON.parse($scope.sanitize(temp));
 		}
-		else
-		{
-			//console.log('Element with id: ' + element.identifier + ' doesn\'t support \"' + $scope.selectedLanguage + '\" language');
+		//IF WE DON'T HAVE languageBlock with the selected language, we use the first one that is available
+		else if( thisJson.languageBlocks[first_lang]!=undefined && thisJson.languageBlocks[first_lang].title!=undefined ){
+			var equals = "";
+			for(index in snippet_elements)
+			{
+				if(snippet_elements[index] in thisJson.languageBlocks[first_lang])
+				{
+
+					/* Element in snippet that IS NOT AN ARRAY */
+					if(thisJson.languageBlocks[first_lang][snippet_elements[index]]!=null && !(thisJson.languageBlocks[first_lang][snippet_elements[index]] instanceof Array))
+					{
+						if(index!=0)
+						{
+							equals+= ",";
+						}
+						equals += "\"" + snippet_elements[index] + "\" : \"" + $scope.truncate(thisJson.languageBlocks[first_lang][snippet_elements[index]], $scope.maxTextLength, ' ...').replace(/\"/g, "\\\"") + "\"";
+					}
+
+					/* Element in snippet that IS ARRAY */
+					if(thisJson.languageBlocks[first_lang][snippet_elements[index]]!=null && (thisJson.languageBlocks[first_lang][snippet_elements[index]] instanceof Array))
+					{
+						if(index!=0) {
+							equals+= ",";
+						}
+
+						var keywords='';
+						for( i in thisJson.languageBlocks[first_lang][snippet_elements[index]] ) {
+							if( i != 0 ) {
+								keywords += ",\""+thisJson.languageBlocks[first_lang][snippet_elements[index]][i]+"\"";
+							} else {
+								keywords += "\""+thisJson.languageBlocks[first_lang][snippet_elements[index]][i]+"\"";
+							}
+						}
+						equals += "\"" + snippet_elements[index] + "\" : [" + keywords + "]";
+
+					}
+
+
+				}
+			}
+
+			//We must have an ID and a SET in order to view item
+			if(thisJson.identifier) {
+				equals += '\ , "id\" : \"' + thisJson.identifier + '\"';
+			}
+
+			//set
+			if(thisJson.set) {
+				equals += '\ , "set\" : \"' + thisJson.set + '\"';
+			}
+
+			//rights
+			if(thisJson.rights.url !== undefined) {
+				console.log( thisJson.rights.url);
+				equals += '\ , "rights\" : \"' + thisJson.rights.url + '\"';
+			}
+
+
+			temp = '{' + equals + '}';
+
+			//return every snippet as JSON
+			return JSON.parse($scope.sanitize(temp));
+		}
+		else{
 			return null;
 		}
+
+
 	}
 
 });

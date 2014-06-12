@@ -4,43 +4,30 @@
 *
 */
 
-/*Define viewItemController controller in 'app' */
-listing.controller("viewItemController", function($scope, $http, $location, $routeParams) {
+//Define viewItemController controller in 'app'
+//---
+listing.controller("viewItemController", function($rootScope, $scope, $http, $location, $routeParams) {
 
-	/*****************************************************************************************************************/
-	/*							  	GENERAL												  						     */
-	/*****************************************************************************************************************/
+	//GENERAL
 	var language_mapping=[], audience_mapping=[];
 	language_mapping['en'] = "English";
 
 	/*AKIF URL*/
-	$scope.akif = 'http://54.228.180.124:8080/search-api/v1/akif/';
-	//$scope.item_resource_id = '';
+	$scope.akif = 'http://api.greenlearningnetwork.com/search-api/v1/akif/';
+	/* $scope.item_resource_id = ''; */
 	$scope.item_resource_url = '';
-	$scope.user_id = 23;
-	$scope.domain = 'http://greenlearningnetwork.org';
-	$scope.ip = '83.212.100.142';
-
-
-	$scope.item_number_of_visitors = 0;
-	$scope.item_average_rating = 'no rating available yet';
-	$scope.item_tags = ['No tags available yet.'];
-	$scope.enable_rating_1 = true;
-	$scope.enable_rating_2 = true;
-	$scope.enable_rating_3 = true;
 
 	//Elements default values
-	$scope.item_title = "No title available for this language";
-	$scope.item_description = "No description available for this language";
+	$scope.item_title = "No title available";
+	$scope.item_description = "No description available";
 
-	/*****************************************************************************************************************/
-	/*							  	FUNCTIONS												  						 */
-	/*****************************************************************************************************************/
+	//FUNCTIONS
 
-	/************************************************** GET ITEM *****************************/
-	$scope.getItem = function() {
+	// function `getItem()`:
+	//- this functions runs on init, reads url parameters and make the specific call to our API
+	$rootScope.getItem = function() {
 
-		console.log($routeParams);
+		//we split the parameter from URL (i.e /item/35701_AGLRGFSP) and get the item id and the set
 		var item_identifier = $routeParams.itemId.split('_')[0]; //SET_ID
 		var item_set = $routeParams.itemId.split('_')[1];
 
@@ -53,299 +40,125 @@ listing.controller("viewItemController", function($scope, $http, $location, $rou
 			headers : headers
 		})
 		.success(function(data) {
-			//parse array and create an JS Object Array
+			//parse array and create a JS Object Array
 			//every item is a JSON
-			console.log(data.results[0]);
 			var thisJson = data.results[0];
 
-			//WE USE ONLY 'EN' FOR NOW
-			if (thisJson.languageBlocks.en !== undefined) {
+			//used to get the first available language in case we don't have en.
+			var first_lang = Object.keys(thisJson.languageBlocks)[0];
+			console.log(first_lang);
 
-				languageBlock = thisJson.languageBlocks['en'];
+			//WE USE 'EN' IF EXISTS
+			if (thisJson.languageBlocks[$scope.selectedLanguage] !== undefined) {
 
-				languageBlock.title !== undefined ? $scope.item_title = languageBlock.title : $scope.item_title = '-';
+				//we take the languageBlock for 'en' from the specific json and add it in a variable.
+				languageBlock = thisJson.languageBlocks[$scope.selectedLanguage];
 
-				languageBlock.description !== undefined ? $scope.item_description = languageBlock.description.split("||") : $scope.item_description ='-';
+				//title
+				if(languageBlock.title !== undefined) $scope.item_title = languageBlock.title;
 
-				languageBlock.keywords !== undefined ? $scope.item_keywords = languageBlock.keywords : $scope.item_keywords = '-';
+				//description
+				if(languageBlock.description !== undefined) $scope.item_description = languageBlock.description //.split("||");
 
-				languageBlock.coverage !== undefined ? $scope.item_coverage = languageBlock.coverage : $scope.item_coverage = '-';
+				//keywords
+				if(languageBlock.keywords !== undefined) $scope.item_keywords = languageBlock.keywords;
+
+				//coverage
+				if(languageBlock.coverage !== undefined) $scope.item_coverage = languageBlock.coverage;
 
 			}
+			// OR we get the first language we find available
+			else if(thisJson.languageBlocks[first_lang] !== undefined) {
 
-			//ORGANIZATION
-			thisJson.contributors[0].organization !== undefined ? $scope.item_organization = thisJson.contributors[0].organization : $scope.item_organization = '-';
+				//we take the languageBlock for 'en' from the specific json and add it in a variable.
+				languageBlock = thisJson.languageBlocks[first_lang];
 
-			//LANGUAGE
+				//title
+				if(languageBlock.title !== undefined) $scope.item_title = languageBlock.title;
+
+				//description
+				if(languageBlock.description !== undefined) $scope.item_description = languageBlock.description //.split("||");
+
+				//keywords
+				if(languageBlock.keywords !== undefined) $scope.item_keywords = languageBlock.keywords;
+
+				//coverage
+				if(languageBlock.coverage !== undefined) $scope.item_coverage = languageBlock.coverage;
+			}
+
+
+			//language
 			thisJson.expressions[0].language !== undefined ? $scope.item_language = language_mapping[thisJson.expressions[0].language] : $scope.item_language = '-';
 
-			//AGE RANGE
+			//age range
 			thisJson.tokenBlock.ageRange !== undefined ? $scope.item_age_range = thisJson.tokenBlock.ageRange : $scope.item_age_range = '-';
 
-			//KEY AUDIENCE
+			//key audience
 			$scope.item_roles = [];
 			if(thisJson.tokenBlock.endUserRoles !== undefined) {
 				for(i in thisJson.tokenBlock.endUserRoles) {
 					$scope.item_roles.push(thisJson.tokenBlock.endUserRoles[i]);
 				}
-			} else {
-				$scope.item_roles = '-';
 			}
 
-			//CONTEXTS
+			//contexts
 			$scope.item_context = [];
 			if(thisJson.tokenBlock.contexts !== undefined) {
 				for(i in thisJson.tokenBlock.contexts) {
 					$scope.item_context.push(thisJson.tokenBlock.contexts[i]);
 				}
-			} else {
-				$scope.item_context = '-';
 			}
 
-			//LEARNING RESOURCE TYPE
+			//learning resource types
 			$scope.item_resource_types = [];
 			if(thisJson.tokenBlock.learningResourceTypes !== undefined) {
 				for(i in thisJson.tokenBlock.learningResourceTypes) {
 					$scope.item_resource_types.push(thisJson.tokenBlock.learningResourceTypes[i]);
 				}
-			} else {
-				$scope.item_resource_types = '-';
 			}
+			console.log($scope.item_resource_types);
 
-
-
-/*
-
-			if (thisJson.tokenBlock.taxonPaths['Organic.Edunet Ontology'] !== undefined) {
-				console.log(thisJson.tokenBlock.taxonPaths);
-				$scope.item_classification =[];
-
-				for(i in thisJson.tokenBlock.taxonPaths['Organic.Edunet Ontology']) {
-					urls = thisJson.tokenBlock.taxonPaths['Organic.Edunet Ontology'][i].split('::');
-					for(j in urls) {
-						$scope.item_classification.push(urls[j].split("#")[1]);
-					}
-				}
-			} else {
-				$scope.item_classification = '-';
-			}
-*/
-
-			if(thisJson.expressions[0].manifestations[0].items[0].url!=undefined) {
+			//url
+			if(thisJson.expressions[0].manifestations[0].items[0].url != undefined) {
 				$scope.item_resource_url = thisJson.expressions[0].manifestations[0].items[0].url;
-
 			}
 
-		})
+			//rights
+			if(thisJson.rights.url !== undefined) $scope.item_rights = thisJson.rights.url;
 
-	};
-
-	/**********************************************************************/
-	/*							  	SocNav								  */
-	/**********************************************************************/
-
-	/****************************************************************************************** GET ITEM RATINGS *********************/
-	$scope.getItemRatings = function() {
-		var path = 'http://62.217.125.104:8080/socnav-gln/api/ratings?itemResourceUri='+$scope.item_resource_url+'&max=100';
-		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8','Authorization':'Basic YWRtaW46YWRtaW4=='};
-
-		console.log('********* getItemRatings *********');
-		console.log(path);
-		$http({
-			method : 'GET',
-			url : path,
-			type: 'json',
-			headers : headers
-		})
-		.success(function(data) {
-			var sum = 0, ctr=0;
-			for(i in data) {
-				ctr++;
-				sum += data[i].preference_avg;
-			}
-			//we calculate the average of the preferences average!
-			$scope.item_average_rating = Math.round(sum/ctr);
-			$scope.item_number_of_visitors = ctr;
-		})
-		.error(function(err){
-			console.log('No available ratings');
-		});
-
-	};
-
-	/****************************************************************************************** RATE ITEM ****************************/
-	$scope.rateItem = function(value,dimension) {
-
-		var path = 'http://62.217.125.104:8080/socnav-gln/api/ratings';
-		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8','Authorization':'Basic YWRtaW46YWRtaW4=='};
-
-		var thisJson = '{"domain":"'+$scope.domain+'","ip_address":"'+$scope.ip+'","session_id":"b3258f85j","sharing_level":"Public","item":{"metadata_uri":"'+$scope.item_resource_url+'","resource_uri":"'+$scope.item_resource_url+'"},"user":{"remote_id":"'+$scope.user_id+'"},"preferences":[{"dimension":"'+dimension+'", "value":"'+value+'"}]}';
-
-		console.log('********* rateItem *********');
-		console.log(path);
-		console.log(thisJson);
-		console.log(headers);
+			//icon
+			if ( thisJson.tokenBlock.learningResourceTypes.indexOf('pathway') > -1 ) { $scope.item_icon = 'pathway.jpg' }
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('image') > -1 ) { $scope.item_icon = 'image.png'}
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('presentation') > -1 ) { $scope.item_icon = 'presentation.png'}
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('video') > -1 ) { $scope.item_icon = 'video.png'}
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('learning asset') > -1 ) { $scope.item_icon = 'learning_asset.png'}
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('lesson plan') > -1 ) { $scope.item_icon = 'lesson_plan.png'}
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('exploration') > -1 ) { $scope.item_icon = 'exploration.png'}
+			else if( thisJson.tokenBlock.learningResourceTypes.indexOf('educational game') > -1 ) { $scope.item_icon = 'educational_game.png'}
 
 
-		//POST rate
-		$http({
-			method : 'POST',
-			url : path,
-			data : thisJson,
-			headers : headers
-		})
-		.success(function(data) {
-			$scope.getItemRatings();
+			//organization
+			thisJson.contributors[0].organization !== undefined ? $scope.item_organization = thisJson.contributors[0].organization : $scope.item_organization = '-';
+				/*
+					if (thisJson.tokenBlock.taxonPaths['Organic.Edunet Ontology'] !== undefined) {
+						console.log(thisJson.tokenBlock.taxonPaths);
+						$scope.item_classification =[];
 
-			switch(dimension) {
-				case 1:
-				$scope.enable_rating_1 = false;
-				break;
-				case 2:
-				$scope.enable_rating_2 = false;
-				break;
-				case 3:
-				$scope.enable_rating_3 = false;
-				break;
-				default:;
-			}
-
-			alert('Thank you for rating :)');
-
-		})
-		.error(function(err){
-			console.log("error on rating:" + err);
-		});
-
-	}
-
-	/****************************************************************************************** GET ITEM TAGS ************************/
-	$scope.getItemTags = function() {
-		var path = 'http://62.217.125.104:8080/socnav-gln/api/taggings?itemResourceUri='+$scope.item_resource_url+'&max=10';
-		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8','Authorization':'Basic YWRtaW46YWRtaW4=='};
-
-		console.log('********* getItemTags *********');
-		console.log(path);
-
-		$http({
-			method : 'GET',
-			url : path,
-			type: 'json',
-			headers : headers
-		})
-		.success(function(data) {
-			var sum = 0, ctr=0;
-
-			if(data[0]!=undefined && data[0].tags!=undefined){
-				$scope.item_tags = [];
-				for(j in data) {
-					for(i in data[j].tags) {
-						ctr++;
-						$scope.item_tags.push('#'+data[j].tags[i].value + ' ');
+						for(i in thisJson.tokenBlock.taxonPaths['Organic.Edunet Ontology']) {
+							urls = thisJson.tokenBlock.taxonPaths['Organic.Edunet Ontology'][i].split('::');
+							for(j in urls) {
+								$scope.item_classification.push(urls[j].split("#")[1]);
+							}
+						}
+					} else {
+						$scope.item_classification = '-';
 					}
-				}
-			}
+				*/
+
+
 		})
-		.error(function(err){
-			console.log('No available tags');
-		});
 
 	};
-
-	/****************************************************************************************** ADD TAG TO ITEM **********************/
-	$scope.submitNewTag = function() {
-
-		var path = 'http://62.217.125.104:8080/socnav-gln/api/taggings';
-		var headers = {'Content-Type':'application/json','Accept':'application/json','Authorization':'Basic YWRtaW46YWRtaW4=='};
-
-
-
-		var new_tag = this.new_tag;
-		//clean the search field
-		$scope.new_tag = "";
-
-		console.log('********* submitTag *********');
-		console.log(path);
-		console.log(new_tag);
-
-		if (new_tag) {
-
-			var thisJson = '{"domain":"'+$scope.domain+'","ip_address":"'+$scope.ip+'","session_id":"b3258f85j","sharing_level":"Public","item":{"metadata_uri":"'+$scope.item_resource_url+'","resource_uri":"'+$scope.item_resource_url+'"},"user":{"metadata_uri":null,"remote_id":"'+$scope.user_id+'"},"tags":[{"value":"'+new_tag+'","lang":"en"}]}';
-
-			$http({
-			method : 'POST',
-			url : path,
-			data : thisJson,
-			headers : headers
-			})
-			.success(function(data) {
-				alert("Tag " + new_tag + " added!");
-			})
-			.error(function(err){
-				console.log("new tag error : " +err);
-			});
-
-			$scope.getItem(); //need to refresh page
-		}
-		else{
-			 alert('Empty tag? Seriously now? WRITE SOMETHING!!!');
-		}
-	}
-
-	/****************************************************************************************** STORE ITEM ACCESSINGS*****************/
-	$scope.newAccessing = function() {
-		var path = 'http://62.217.125.104:8080/socnav-gln/api/accessings';
-		var headers = {'Content-Type':'application/json','Accept':'application/json;charset=utf-8','Authorization':'Basic YWRtaW46YWRtaW4=='};
-		var datetime = + new Date;// with '+' gets timestamp
-
-		var thisJson ='{"domain":"'+$scope.domain+'","ip_address":"'+$scope.ip+'","session_id":"b3258f85j","sharing_level":"Public","updated_at":'+datetime+',"item":{"metadata_uri":"'+$scope.item_resource_url+'","resource_uri":"'+$scope.item_resource_url+'"},"user":{"metadata_uri":null,"remote_id":'+$scope.user_id+'},"review":"This item is educational","lang":"en"}';
-
-		console.log('********* new accessing *********');
-		console.log(path);
-		console.log(thisJson);
-		console.log(headers);
-
-
-		//POST accessing
-		$http({
-			method : 'POST',
-			url : path,
-			data : thisJson,
-			headers : headers
-		})
-		.success(function(data) {
-			console.log("Access stored to SocialNav. Thank You.");
-		})
-		.error(function(err){
-			console.log("accessing error:" + err);
-		});
-	}
-
-	/****************************************************************************************** Helper Method for CORS Request *******/
-	function createCORSRequest(method, url) {
-		var xhr = new XMLHttpRequest();
-		if ("withCredentials" in xhr) {
-			// Check if the XMLHttpRequest object has a "withCredentials" property.
-			// "withCredentials" only exists on XMLHTTPRequest2 objects.
-			xhr.open(method, url, true);
-		}
-		else if (typeof XDomainRequest != "undefined") {
-			// Otherwise, check if XDomainRequest.
-			// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-			xhr = new XDomainRequest();
-			xhr.open(method, url);
-		}
-		else {
-			// Otherwise, CORS is not supported by the browser.
-			xhr = null;
-		}
-
-		xhr.onerror = function() {
-			console.log('XHR error!');
-		};
-
-		return xhr;
-	}
 
 });
 

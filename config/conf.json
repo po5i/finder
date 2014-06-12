@@ -7,12 +7,14 @@
   "facets": [
     "set",
     "language",
-    "contexts"
+    "contexts",
+    "learningResourceTypes",
+    "endUserRoles"
   ],
   "limitPagination": 10,
   "limit_facets": {
   },
-  "limit_facets_number": 20,
+  "limit_facets_number": 100,
   "mappings_file": "../config/facets_mappings.json",
   "maxTextLength": 300,
   "pageSize": 10,
@@ -20,6 +22,8 @@
   "snippetElements": [
     "title",
     "description",
-    "keywords"
+    "keywords",
+    "language",
+    "tokenBlock.learningResourceTypes"
   ]
 }

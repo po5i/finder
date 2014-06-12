@@ -1,58 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>GFSP</title>
-	<!-- INCLUDE REQUIRED THIRD PARTY LIBRARY JAVASCRIPT AND CSS -->
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-	<meta name="viewport" content="width=device-width" />
+	<meta charset="UTF-8">
+    <link href="http://fonts.googleapis.com/css?family=Signika" rel='stylesheet' type='text/css'>
+    <link rel="apple-touch-icon" href="assets/images/nhmc_icon.png"/>
 
-	<!-- define the base url -->
-	<!-- 	<base href="/Users/higher2fly/Agro-Know/projects_UX/gfsp/"> -->
-	<!-- 	<base href="greenlearningnetwork.com/gfsp/"> -->
 
-	<!-- get base url dynamically to avoid collisions between 'www.domain...' and 'domain...' -->
-	<script>
-      document.write('<base href="' + document.location + '" />');
-	</script>
+		<title>Agro-Know Discovery</title>
+		<!-- INCLUDE REQUIRED THIRD PARTY LIBRARY JAVASCRIPT AND CSS -->
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta name="viewport" content="width=device-width" />
+		<!-- define the base url -->
+		<!-- 	<base href="/Users/higher2fly/Agro-Know/projects_UX/gfsp/"> -->
+		<!-- 	<base href="greenlearningnetwork.com/gfsp/"> -->
+		<!-- get base url dynamically to avoid collisions between 'www.domain...' and 'domain...' -->
+		<script>
+	      document.write('<base href="' + document.location + '" />');
+		</script>
 
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-	<link rel="stylesheet/less" type="text/css" href="css/style.less" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+		<link rel="stylesheet/less" type="text/css" href="css/style.less" />
 
 
 </head>
 
-<!-- ng-Cloak directive prevents html rendering before AngularJS full load. -->
 <body ng-app="akListing" ng-cloak>
+		<div id="wrap" ng-controller="mainController" ng-init="init_language()" >
+			<header ></header>
 
-	<header></header>
+			<!-- Language-->
+			 <div class="languages_block">
+				 <a href="javascript:;" ng-click="change_language('el')"><img src="assets/images/flag_gr_round.png" ></a>
+				 <a href="javascript:;" ng-click="change_language('en')"><img src="assets/images/flag_en_round.png" ></a>
+			 </div>
+			<!-- / Language -->
 
-		<div id="akListing" ng-controller="mainController">
-	        <div ng-view class="col-md-12" >
+			<div id="akListing"> <!-- class="col-xs-12 col-sm-12 col-md-12" -->
+		        <div ng-view>
+				</div>
 			</div>
+
+			<!--<footer  class="col-xs-12 col-sm-12 col-md-12">
+				sometext
+			</footer>-->
 		</div>
+		<div id="address_footer"><p class="aligncenter">&nbsp;</p></div>
+
+	<!-- ----------- -->
+	<!-- angular -->
+	<script type="text/javascript" src="lib/angular.min.js"></script>
+	<script type="text/javascript" src="lib/angular-route.min.js"></script>
+	<script type="text/javascript" src="lib/ui-bootstrap-0.10.0.min.js"></script>
+
+	<!-- less -->
+	<script src="lib/less-1.5.0.min.js" type="text/javascript"></script>
+
+	<!-- app & controllers -->
+	<script type="text/javascript" src="app/app.js"></script>
+	<script type="text/javascript" src="app/controllers/mainController.js"></script>
+	<script type="text/javascript" src="app/controllers/search/listingController.js"></script>
+	<script type="text/javascript" src="app/controllers/search/paginationController.js"></script>
+	<script type="text/javascript" src="app/controllers/search/facetsController.js"></script>
+	<script type="text/javascript" src="app/controllers/view_item/viewItemController.js"></script>
+
+	<!-- JIRA BUGS REPORTING -->
+    <!-- <script type="text/javascript" src="https://agroknow.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_US-95vtla/6322/8/1.4.11/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=7bdc0edb"></script> -->
 
 
-	<footer>
-		<p><a href="http://www.agroknow.gr" target="_blank">Powered by Agro-Know</a></p>
-	</footer>
-
-<!-- INCLUDE APPLICATION SPECIFIC CSS AND JAVASCRIPT -->
-
-<!-- angular -->
-<script type="text/javascript" src="lib/angular.min.js"></script>
-<script type="text/javascript" src="lib/angular-route.min.js"></script>
-<script type="text/javascript" src="lib/ui-bootstrap-0.10.0.min.js"></script>
-<!-- less -->
-<script src="lib/less-1.5.0.min.js" type="text/javascript"></script>
-<!-- app & controllers -->
-<script type="text/javascript" src="app/app.js"></script>
-<script type="text/javascript" src="app/controllers/mainController.js"></script>
-<script type="text/javascript" src="app/controllers/search/listingController.js"></script>
-<script type="text/javascript" src="app/controllers/search/paginationController.js"></script>
-<script type="text/javascript" src="app/controllers/search/facetsController.js"></script>
-<script type="text/javascript" src="app/controllers/view_item/viewItemController.js"></script>
-<script type="text/javascript" src="app/controllers/view_item/agris-viewItemController.js"></script>
 
 </body>
+
 </html>
