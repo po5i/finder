@@ -13,7 +13,10 @@ listing.controller("viewItemController", function($rootScope, $scope, $http, $lo
 	language_mapping['en'] = "English";
 
 	/*AKIF URL*/
-	$scope.akif = 'http://api.greenlearningnetwork.com/search-api/v1/akif/';
+	//$scope.akif = 'http://api.greenlearningnetwork.com/search-api/v1/akif/';
+	//$scope.akif = 'http://localhost:8080/agro-search-1.0-SNAPSHOT/v1/akif/';
+	$scope.akif = $scope.api_path+"akif/";
+	console.log($scope.akif);
 	/* $scope.item_resource_id = ''; */
 	$scope.item_resource_url = '';
 
